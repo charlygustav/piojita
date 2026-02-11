@@ -6,27 +6,85 @@
     <title>Para: Jamilet</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"> <!-- Fuente minimalista -->
     <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --accent-color: #4ecdc4;
+            --secondary-bg: #111111;
+            --border-color: #333333;
+            --shadow: rgba(255, 255, 255, 0.1);
+            --heart-color: #ffffff;
+        }
+        [data-theme="light"] {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --accent-color: #4ecdc4;
+            --secondary-bg: #f9f9f9;
+            --border-color: #e0e0e0;
+            --shadow: rgba(0, 0, 0, 0.05);
+            --heart-color: #ff6b6b;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #000000; /* Fondo negro */
-            color: #ffffff; /* Texto blanco para legibilidad */
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
             padding: 40px 20px;
             line-height: 1.6;
             text-align: center;
-            opacity: 0; /* Inicialmente invisible para fade-in */
-            animation: fadeIn 1s ease-in-out 0.5s forwards; /* Fade-in del body */
-            position: relative; /* Para lluvia */
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out 0.5s forwards;
+            position: relative;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        .header {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .theme-toggle {
+            background: #111111; /* Negro fijo para minimalismo */
+            border: 1px solid #333333; /* Negro fijo */
+            border-radius: 20px;
+            width: 50px;
+            height: 25px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* Sombra blanca fija */
+        }
+        .theme-toggle:hover {
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Sombra blanca fija */
+        }
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 19px;
+            height: 19px;
+            background: #ffffff; /* Blanco fijo para el botón */
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        .theme-toggle.dark::before {
+            transform: translateX(25px);
         }
         .container {
             max-width: 600px;
             margin: 0 auto;
-            position: relative; /* Para z-index */
-            z-index: 1; /* Sobre la lluvia */
-            display: none; /* Oculto hasta que cargue */
+            position: relative;
+            z-index: 1;
+            display: none;
         }
         .content {
-            transition: all 0.5s ease; /* Transición suave para blur */
+            transition: all 0.5s ease;
         }
         .content.blurred {
             filter: blur(5px);
@@ -36,20 +94,20 @@
             font-size: 3em;
             font-weight: 600;
             margin-bottom: 20px;
-            color: #ffffff; /* Blanco para título */
+            color: var(--text-color);
             opacity: 0;
-            transform: translateY(20px); /* Desplazamiento inicial */
-            animation: slideUp 0.8s ease-out 1s forwards; /* Slide-up después del body */
+            transform: translateY(20px);
+            animation: slideUp 0.8s ease-out 1s forwards;
         }
         .date {
-            font-size: 1.1em; /* Más chiquita */
-            color: #cccccc; /* Gris claro para contraste */
+            font-size: 1.1em;
+            color: var(--text-color); /* Ahora usa variable para legibilidad en claro */
             margin-bottom: 40px;
-            border-bottom: 1px solid #333333; /* Línea sutil oscura */
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 20px;
             opacity: 0;
             transform: translateY(20px);
-            animation: slideUp 0.8s ease-out 1.3s forwards; /* Delay para secuencia */
+            animation: slideUp 0.8s ease-out 1.3s forwards;
             position: relative;
         }
         .date::after {
@@ -57,10 +115,10 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 0; /* Inicialmente sin ancho */
-            height: 2px; /* Grosor del subrayado */
-            background-color: #ffffff; /* Blanco */
-            animation: underline 1s ease-out 1.4s forwards; /* Animación automática con delay */
+            width: 0;
+            height: 2px;
+            background-color: var(--text-color);
+            animation: underline 1s ease-out 1.4s forwards;
         }
         p {
             font-size: 1.1em;
@@ -70,14 +128,14 @@
             margin-right: auto;
             opacity: 0;
             transform: translateY(20px);
-            animation: slideUp 0.8s ease-out 1.5s forwards; /* Delay para párrafos */
+            animation: slideUp 0.8s ease-out 1.5s forwards;
         }
         hr {
             border: none;
             height: 1px;
-            background-color: #333333; /* Línea sutil oscura */
+            background-color: var(--border-color);
             margin: 30px auto;
-            width: 50%; /* Ancho limitado para minimalismo */
+            width: 50%;
             position: relative;
         }
         hr::after {
@@ -85,13 +143,13 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 0; /* Inicialmente sin ancho */
-            height: 2px; /* Grosor del subrayado */
-            background-color: #ffffff; /* Blanco */
-            transition: width 1s ease; /* Transición para activar con JS */
+            width: 0;
+            height: 2px;
+            background-color: var(--text-color);
+            transition: width 1s ease;
         }
         hr.animate::after {
-            width: 100%; /* Expande a todo el ancho */
+            width: 100%;
         }
         .buttons {
             display: flex;
@@ -100,107 +158,106 @@
             margin: 40px 0;
             opacity: 0;
             transform: translateY(20px);
-            animation: slideUp 0.8s ease-out 1.7s forwards; /* Delay para botones */
+            animation: slideUp 0.8s ease-out 1.7s forwards;
         }
         button {
-            background-color: transparent; /* Sin fondo */
-            color: #ffffff; /* Blanco */
-            border: 2px solid #ffffff; /* Borde blanco */
+            background-color: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--text-color);
             padding: 12px 24px;
             font-size: 1em;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease; /* Hover suave */
-            border-radius: 0; /* Sin redondeo para minimalismo */
+            transition: all 0.3s ease;
+            border-radius: 0;
         }
         button:hover {
-            background-color: #ffffff;
-            color: #000000; /* Hover negro */
+            background-color: var(--text-color);
+            color: var(--bg-color);
         }
         #message {
             display: none;
             font-size: 1.2em;
-            color: #ffffff; /* Blanco */
+            color: var(--text-color);
             margin-top: 40px;
             padding: 20px;
-            border-top: 1px solid #333333; /* Línea sutil oscura arriba */
+            border-top: 1px solid var(--border-color);
             opacity: 0;
             transform: translateY(20px);
         }
         .credits {
-            font-size: 0.6em; /* Letras diminutas */
-            color: #999999; /* Gris claro sutil */
-            margin-top: 50px; /* Separación del contenido */
+            font-size: 0.6em;
+            color: #999999;
+            margin-top: 50px;
             text-align: center;
-            line-height: 1.4; /* Mejor legibilidad */
+            line-height: 1.4;
         }
-        /* Pantalla de carga */
         #loader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: #000000; /* Fondo negro */
+            background-color: #000000; /* Negro fijo para minimalismo */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 9999; /* Sobre todo */
-            color: #ffffff;
+            z-index: 9999;
+            color: #ffffff; /* Blanco fijo */
             font-size: 1.5em;
         }
         .spinner {
-            border: 4px solid #333333;
-            border-top: 4px solid #ffffff;
+            border: 4px solid #333333; /* Negro fijo */
+            border-top: 4px solid #ffffff; /* Blanco fijo */
             border-radius: 50%;
             width: 50px;
             height: 50px;
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
         }
-        /* Contenedor de lluvia que ocupa toda la pantalla */
         #rainContainer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            pointer-events: none; /* No interfiere con clicks */
-            z-index: 0; /* Detrás del contenido */
-            overflow: hidden; /* Evita scroll */
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
         }
-        /* Lluvia de loros y corazones */
         .rain {
             position: absolute;
             top: -50px;
-            font-size: 2em; /* Tamaño original */
-            opacity: 0.7; /* Opacidad original */
+            font-size: 2em;
+            opacity: 0.7;
             animation: fall 3s linear infinite;
-            pointer-events: none; /* No interfiere con clicks */
+            pointer-events: none;
         }
         .rain.loro {
-            color: #4ecdc4; /* Verde turquesa para loros */
+            color: var(--accent-color);
         }
         .rain.heart {
-            color: #ffffff; /* Blanco para corazones */
+            color: var(--heart-color);
         }
-        /* Media query suave para móviles */
+        .rain.sad {
+            color: var(--text-color); /* Para emoji 😭, usa color de texto */
+        }
         @media (max-width: 768px) {
             body {
-                padding: 30px 15px; /* Padding ligeramente reducido para móviles */
+                padding: 30px 15px;
             }
             h1 {
-                font-size: 2.5em; /* Ligeramente más pequeño en móvil */
+                font-size: 2.5em;
             }
             .date {
-                font-size: 1em; /* Aún más chiquita en móvil */
+                font-size: 1em;
             }
             p {
                 font-size: 1em;
             }
             hr {
-                width: 60%; /* Un poco más ancho en móvil */
+                width: 60%;
             }
             .buttons {
                 gap: 15px;
@@ -216,10 +273,9 @@
                 margin-top: 40px;
             }
             .rain {
-                font-size: 1.8em; /* Más grande en móvil para visibilidad */
+                font-size: 1.8em;
             }
         }
-        /* Keyframes para animaciones */
         @keyframes fadeIn {
             to {
                 opacity: 1;
@@ -256,42 +312,56 @@
         }
     </style>
 </head>
-<body>
-    <!-- Pantalla de carga -->
+<body data-theme="dark">
+    <div class="header">
+        <button class="theme-toggle dark" onclick="toggleTheme()"></button>
+    </div>
     <div id="loader">
         <div class="spinner"></div>
         Los loros están llegando...
     </div>
-    <div id="rainContainer"></div> <!-- Contenedor de lluvia que ocupa toda la pantalla -->
+    <div id="rainContainer"></div>
     <div class="container">
         <div class="content">
             <h1>¡Feliz cumpleaños, mi piojita! 🤍</h1>
             <div class="date">11 de febrero de 2026</div>
-            <p>Quería escribirte algo real, sin dramas ni vueltas. Sé que hemos estado mal. Entre mis bloqueos, tu inestabilidad y los malentendidos, nos hemos hecho daño. Pero sigo aquí porque te quiero y porque creo que podemos estar mejor.</p>
-            <p>Hoy te pido un regalo para mí también, quiéreme. Quiéreme bien y demuéstramelo. A veces siento que no te importo o que soy una carga para ti, y eso duele. Necesito que dejes de tratarme mal o con frialdad cuando tienes tus bajones. Yo no soy tu enemigo, soy el que quiere verte feliz y el que está dispuesto a apoyarte siempre, incluso cuando dices que "haces todo mal".</p>
+            <p>Feliz cumpleaños. Quería escribirte algo real, sin dramas ni vueltas. Sé que hemos estado mal. Entre mis bloqueos, tu inestabilidad y los malentendidos, nos hemos hecho daño. Pero sigo aquí porque te quiero y porque creo que podemos estar mejor.</p>
+            <p>Hoy te pido un regalo para mí también: quiéreme. Quiéreme bien y demuéstramelo. A veces siento que no te importo o que soy una carga para ti, y eso duele. Necesito que dejes de tratarme mal o con frialdad cuando tienes tus bajones. Yo no soy tu enemigo, soy el que quiere verte feliz y el que está dispuesto a apoyarte siempre, incluso cuando dices que "haces todo mal".</p>
             <p>Vamos a cerrar los temas del pasado y a empezar de cero hoy. Sin celos tontos, sin huidas y con ganas de construir. Eres mi "palidota" y quiero que seas feliz conmigo.</p>
             <hr>
         </div>
-        <p id="proposal">Y para demostrarte que voy en serio, tengo una pregunta para ti. ¿Quieres ser mi San Valentín este 14 de febrero?</p>
+        <p id="proposal">Y para demostrarte que voy en serio, tengo una pregunta para ti: ¿Quieres ser mi San Valentín este 14 de febrero?</p>
         <div class="buttons">
             <button onclick="showMessage('yes')">Sí</button>
             <button onclick="showMessage('no')">No</button>
         </div>
         <p id="message"></p>
         <div class="credits">
-            © 2026 Charles Gustav - All rights reserved.<br>
+            © 2026 Charles Gustav<br>
             Página hecha para Jamilet Olmos
         </div>
     </div>
     
     <script>
+        function toggleTheme() {
+            const body = document.body;
+            const toggle = document.querySelector('.theme-toggle');
+            if (body.dataset.theme === 'dark') {
+                body.dataset.theme = 'light';
+                toggle.classList.remove('dark');
+            } else {
+                body.dataset.theme = 'dark';
+                toggle.classList.add('dark');
+            }
+        }
+
         window.onload = function() {
             const loader = document.getElementById('loader');
             const container = document.querySelector('.container');
             setTimeout(() => {
-                loader.style.display = 'none'; // Ocultar loader después de 3 segundos
-                container.style.display = 'block'; // Mostrar container
-            }, 3000); // Delay de 3 segundos para estética
+                loader.style.display = 'none';
+                container.style.display = 'block';
+            }, 3000);
         };
 
         function showMessage(choice) {
@@ -299,72 +369,84 @@
             const buttonsElement = document.querySelector('.buttons');
             if (choice === 'yes') {
                 messageElement.innerHTML = '¡Sí! Mi piojita hermosa, serás mi San Valentín perfecta. Te amo más que a los loros y piojos juntos. 🤍🦜<br><br><button id="songButton">Escuchar canción favorita</button>';
-                // Lluvia de loros y corazones al seleccionar Sí
                 startRain();
             } else if (choice === 'no') {
                 messageElement.innerHTML = '<button onclick="confirmNo()">¿Estás segura?</button> <button onclick="goBack()">Volver</button>';
             }
-            // Animación: fade-out de botones
             buttonsElement.style.animation = 'fadeOut 0.5s ease-out forwards';
             setTimeout(() => {
                 buttonsElement.style.display = 'none';
-                // Fade-in del mensaje
                 messageElement.style.display = 'block';
                 messageElement.style.animation = 'slideUp 0.8s ease-out forwards';
-                messageElement.scrollIntoView({ behavior: 'smooth' }); // Scroll suave automático
-                // Agregar event listener al botón de la canción si existe
+                messageElement.scrollIntoView({ behavior: 'smooth' });
                 const songButton = document.getElementById('songButton');
                 if (songButton) {
                     songButton.addEventListener('click', () => {
                         window.location.href = 'https://youtu.be/VZsWmidmIjk?si=yW0RVsymxyxAecdl';
                     });
                 }
-            }, 500); // Delay para que el fade-out termine
+            }, 500);
         }
 
         function confirmNo() {
             const messageElement = document.getElementById('message');
             messageElement.innerHTML = '¡Ay, no! Pero mi corazón sigue latiendo por ti, mi piojita. Igual te amo mucho. 🤍';
-            // Fade-in del mensaje final
             messageElement.style.animation = 'slideUp 0.8s ease-out forwards';
-            messageElement.scrollIntoView({ behavior: 'smooth' }); // Scroll suave automático
+            messageElement.scrollIntoView({ behavior: 'smooth' });
+            startRainSad(); // Lluvia de 😭 al seleccionar No
         }
 
         function goBack() {
             const messageElement = document.getElementById('message');
             const buttonsElement = document.querySelector('.buttons');
-            // Ocultar mensaje y mostrar botones
             messageElement.style.display = 'none';
             buttonsElement.style.display = 'flex';
             buttonsElement.style.animation = 'slideUp 0.8s ease-out forwards';
-            messageElement.scrollIntoView({ behavior: 'smooth' }); // Scroll suave automático
+            messageElement.scrollIntoView({ behavior: 'smooth' });
         }
 
         function startRain() {
             const rainContainer = document.getElementById('rainContainer');
-            for (let i = 0; i < 40; i++) { // Cantidad original
+            const body = document.body;
+            const isLight = body.dataset.theme === 'light';
+            for (let i = 0; i < 40; i++) {
                 setTimeout(() => {
                     const rainElement = document.createElement('div');
                     rainElement.classList.add('rain');
-                    rainElement.style.left = Math.random() * 100 + '%'; // Posición horizontal aleatoria en toda la pantalla
-                    rainElement.style.animationDelay = Math.random() * 2 + 's'; // Delay aleatorio para variación
+                    rainElement.style.left = Math.random() * 100 + '%';
+                    rainElement.style.animationDelay = Math.random() * 2 + 's';
                     if (Math.random() > 0.5) {
                         rainElement.classList.add('loro');
                         rainElement.textContent = '🦜';
                     } else {
                         rainElement.classList.add('heart');
-                        rainElement.textContent = '🤍'; // Corazón blanco
+                        rainElement.textContent = isLight ? '❤️' : '🤍'; // ❤️ en claro, 🤍 en oscuro
                     }
                     rainContainer.appendChild(rainElement);
-                    // Remover después de la animación
                     setTimeout(() => {
                         rainElement.remove();
                     }, 3000);
-                }, i * 100); // Espaciar creación
+                }, i * 100);
             }
         }
 
-        // Animación scroll-triggered para la segunda barra separadora (hr)
+        function startRainSad() {
+            const rainContainer = document.getElementById('rainContainer');
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const rainElement = document.createElement('div');
+                    rainElement.classList.add('rain', 'sad');
+                    rainElement.style.left = Math.random() * 100 + '%';
+                    rainElement.style.animationDelay = Math.random() * 2 + 's';
+                    rainElement.textContent = '😭';
+                    rainContainer.appendChild(rainElement);
+                    setTimeout(() => {
+                        rainElement.remove();
+                    }, 3000);
+                }, i * 100);
+            }
+        }
+
         const hrElement = document.querySelector('hr');
         const observerHr = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -372,10 +454,9 @@
                     hrElement.classList.add('animate');
                 }
             });
-        }, { threshold: 0.5 }); // Activa cuando el 50% del hr esté visible
+        }, { threshold: 0.5 });
         observerHr.observe(hrElement);
 
-        // Efecto de blur en scroll para la propuesta
         const proposalElement = document.getElementById('proposal');
         const contentElement = document.querySelector('.content');
         const observerProposal = new IntersectionObserver((entries) => {
@@ -386,7 +467,7 @@
                     contentElement.classList.remove('blurred');
                 }
             });
-        }, { threshold: 0.5 }); // Activa cuando el 50% de la propuesta esté visible
+        }, { threshold: 0.5 });
         observerProposal.observe(proposalElement);
     </script>
 </body>
