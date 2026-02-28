@@ -3,482 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para: Jamilet</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"> <!-- Fuente minimalista -->
+    <title>Notas sobre Jamilet</title>
     <style>
-        :root {
-            --bg-color: #000000;
-            --text-color: #ffffff;
-            --accent-color: #4ecdc4;
-            --secondary-bg: #111111;
-            --border-color: #333333;
-            --shadow: rgba(255, 255, 255, 0.1);
-            --heart-color: #ffffff;
-        }
-        [data-theme="light"] {
-            --bg-color: #ffffff;
-            --text-color: #000000;
-            --accent-color: #4ecdc4;
-            --secondary-bg: #f9f9f9;
-            --border-color: #e0e0e0;
-            --shadow: rgba(0, 0, 0, 0.05);
-            --heart-color: #ff6b6b;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 40px 20px;
-            line-height: 1.6;
-            text-align: center;
-            opacity: 0;
-            animation: fadeIn 1s ease-in-out 0.5s forwards;
-            position: relative;
-            transition: background-color 0.5s ease, color 0.5s ease;
-        }
-        .header {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-        .theme-toggle {
-            background: #111111; /* Negro fijo para minimalismo */
-            border: 1px solid #333333; /* Negro fijo */
-            border-radius: 20px;
-            width: 50px;
-            height: 25px;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* Sombra blanca fija */
-        }
-        .theme-toggle:hover {
-            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Sombra blanca fija */
-        }
-        .theme-toggle::before {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 19px;
-            height: 19px;
-            background: #ffffff; /* Blanco fijo para el botón */
-            border-radius: 50%;
-            transition: transform 0.3s ease;
-        }
-        .theme-toggle.dark::before {
-            transform: translateX(25px);
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-        .content {
-            transition: all 0.5s ease;
-        }
-        .content.blurred {
-            filter: blur(5px);
-            opacity: 0.7;
-        }
-        #proposal {
-            transition: all 0.5s ease;
-        }
-        #proposal.blurred {
-            filter: blur(5px);
-            opacity: 0.7;
-        }
-        h1 {
-            font-size: 3em;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--text-color);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.8s ease-out 1s forwards;
-        }
-        .date {
-            font-size: 1.1em;
-            color: var(--text-color); /* Ahora usa variable para legibilidad en claro */
-            margin-bottom: 40px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.8s ease-out 1.3s forwards;
-            position: relative;
-        }
-        .date::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--text-color);
-            animation: underline 1s ease-out 1.4s forwards;
-        }
-        p {
-            font-size: 1.1em;
-            margin: 20px 0;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.8s ease-out 1.5s forwards;
-        }
-        hr {
-            border: none;
-            height: 1px;
-            background-color: var(--border-color);
-            margin: 30px auto;
-            width: 50%;
-            position: relative;
-        }
-        hr::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--text-color);
-            transition: width 1s ease;
-        }
-        hr.animate::after {
-            width: 100%;
-        }
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 40px 0;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.8s ease-out 1.7s forwards;
-        }
-        button {
-            background-color: transparent;
-            color: var(--text-color);
-            border: 2px solid var(--text-color);
-            padding: 12px 24px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 0;
-        }
-        button:hover {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-        }
-        .reset-link {
-            cursor: pointer;
-            font-size: 0.8em;
-            color: #999999;
-            margin-top: 20px;
-            display: block;
-            opacity: 0;
-            animation: fadeInLink 0.5s ease-out forwards;
-            transition: color 0.3s ease;
-        }
-        .reset-link:hover {
-            color: var(--text-color);
-        }
-        #message {
-            display: none;
-            font-size: 1.2em;
-            color: var(--text-color);
-            margin-top: 40px;
-            padding: 20px;
-            border-top: 1px solid var(--border-color);
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        .credits {
-            font-size: 0.6em;
-            color: #999999;
-            margin-top: 50px;
-            text-align: center;
-            line-height: 1.4;
-        }
-        #rainContainer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-        .rain {
-            position: absolute;
-            top: -50px;
-            font-size: 2em;
-            opacity: 0.7;
-            animation: fall 3s linear infinite;
-            pointer-events: none;
-        }
-        .rain.loro {
-            color: var(--accent-color);
-        }
-        .rain.heart {
-            color: var(--heart-color);
-        }
-        .rain.sad {
-            color: var(--text-color); /* Para emoji 😭, usa color de texto */
-        }
-        @media (max-width: 768px) {
-            body {
-                padding: 30px 15px;
-            }
-            h1 {
-                font-size: 2.5em;
-            }
-            .date {
-                font-size: 1em;
-            }
-            p {
-                font-size: 1em;
-            }
-            hr {
-                width: 60%;
-            }
-            .buttons {
-                gap: 15px;
-            }
-            button {
-                padding: 10px 20px;
-            }
-            #message {
-                font-size: 1.3em;
-            }
-            .credits {
-                font-size: 0.5em;
-                margin-top: 40px;
-            }
-            .rain {
-                font-size: 1.8em;
-            }
-        }
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes underline {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
-        }
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-            }
-        }
-        @keyframes fall {
-            to {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @keyframes fadeInLink {
-            to {
-                opacity: 1;
-            }
-        }
+        * { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" fill="none" stroke="%23fff" stroke-width="1"/></svg>') 10 10, auto; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background-color: #0a0a0a; color: #e0e0e0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.8; display: flex; justify-content: center; min-height: 100vh; padding: 60px 20px; overflow-x: hidden; }
+        #particulas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .contenedor { max-width: 600px; width: 100%; position: relative; z-index: 1; opacity: 0; transform: translateY(30px); transition: opacity 1s ease, transform 1s ease; }
+        .contenedor.visible { opacity: 1; transform: translateY(0); }
+        
+        .intro-seccion { text-align: center; margin-bottom: 50px; padding: 30px 0; border-bottom: 1px solid #222; }
+        .fechas { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; font-size: 0.85rem; color: #555; }
+        .fecha-item span { display: block; color: #777; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
+        .estadisticas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 50px; padding: 20px; background: #0f0f0f; border-radius: 5px; }
+        .stat-item { text-align: center; }
+        .stat-numero { display: block; font-size: 1.5rem; color: #666; font-weight: 300; }
+        .stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #444; }
+        h1 { font-weight: 300; letter-spacing: 4px; text-transform: uppercase; font-size: 1.5rem; margin-bottom: 60px; text-align: center; color: #666; border-bottom: 1px solid #222; padding-bottom: 20px; opacity: 0; transform: translateY(20px); transition: all 0.8s ease 0.3s; }
+        h1.visible { opacity: 1; transform: translateY(0); }
+        .lista-items { list-style: none; }
+        .item { margin-bottom: 50px; position: relative; padding-left: 20px; border-left: 1px solid #222; opacity: 0; transform: translateX(-20px); transition: all 0.6s ease; }
+        .item.visible { opacity: 1; transform: translateX(0); }
+        .item:hover { border-left-color: #444; }
+        .titulo-punto { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px; color: #555; margin-bottom: 10px; }
+        .descripcion { font-size: 1.05rem; font-weight: 300; color: #ccc; margin-bottom: 15px; }
+        
+        .reak-grupo { display: flex; gap: 8px; }
+        .reak-btn { background: transparent; border: 1px solid #222; color: #444; padding: 5px 12px; font-size: 0.8rem; cursor: pointer; border-radius: 20px; transition: all 0.3s; }
+        .reak-btn:hover { border-color: #555; color: #666; transform: scale(1.1); }
+        .reak-btn.activado { border-color: #ff4444; color: #ff4444; background: rgba(255,68,68,0.1); }
+        
+        .nombre-en { color: #fff; font-weight: 500; background: #1a1a1a; padding: 2px 6px; border-radius: 2px; }
+        footer { margin-top: 80px; text-align: center; font-size: 0.75rem; color: #333; font-style: italic; letter-spacing: 2px; opacity: 0; transition: opacity 1s ease 0.5s; }
+        footer.visible { opacity: 1; }
+        .enlace-inicio { color: #333; text-decoration: none; cursor: pointer; transition: color 0.3s ease; font-style: italic; }
+        .enlace-inicio:hover { color: #666; }
+        
+        @media (max-width: 600px) { body { padding: 40px 20px; } h1 { font-size: 1.2rem; } .descripcion { font-size: 1rem; } .estadisticas { grid-template-columns: repeat(2, 1fr); } .fechas { flex-direction: column; gap: 15px; } }
     </style>
 </head>
-<body data-theme="dark">
-    <div class="header">
-        <button class="theme-toggle dark" onclick="toggleTheme()"></button>
+<body>
+
+    <canvas id="particulas"></canvas>
+
+    <div class="contenedor" id="contenido">
+        <div class="intro-seccion">
+            <div class="fechas">
+                <div class="fecha-item"><span>Inicio</span><div>21/08/25</div></div>
+                <div class="fecha-item"><span>Fin</span><div>12/02/26</div></div>
+                <div class="fecha-item"><span>Tiempo</span><div id="contador">0 días</div></div>
+            </div>
+        </div>
+
+        <div class="estadisticas">
+            <div class="stat-item"><span class="stat-numero" id="stat-dias">0</span><span class="stat-label">Días juntos</span></div>
+            <div class="stat-item"><span class="stat-numero" id="stat-excusas">0</span><span class="stat-label">Excusas</span></div>
+            <div class="stat-item"><span class="stat-numero" id="stat-traidores">0</span><span class="stat-label">Traidores</span></div>
+        </div>
+
+        <h1 id="titulo">Expediente: Jamilet</h1>
+
+        <ul class="lista-items">
+            <li class="item"><span class="titulo-punto">01. El rango por encima de mí</span><p class="descripcion">Puso su rango de administradora por encima de nuestra relación y de mi tiempo.</p><div class="reak-grupo"><button class="reak-btn" onclick="reak(this)">👍</button><button class="reak-btn" onclick="reak(this)">👎</button><button class="reak-btn" onclick="reak(this)">💔</button></div></li>
+            <li class="item"><span class="titulo-punto">02. Me escondió por sus amigas</span><p class="descripcion">Me ocultó para darle prioridad a la opinión de sus amigas, negándome mi lugar como su pareja.</p><div class="reak-grupo"><button class="reak-btn" onclick="reak(this)">👍</button><button class="reak-btn" onclick="reak(this)">👎</button><button class="reak-btn" onclick="reak(this)">💔</button></div></li>
+            <li class="item"><span class="titulo-punto">03. Cero afecto público</span><p class="descripcion">Me prohibió demostrarle afecto o exclusividad frente a otras personas.</p><div class="reak-grupo"><button class="reak-btn" onclick="reak(this)">👍</button><button class="reak-btn" onclick="reak(this)">👎</button><button class="reak-btn" onclick="reak(this)">💔</button></div></li>
+            <li class="item"><span class="titulo-punto">04. Trato de "migajero"</span><p class="descripcion">Me hizo sentir que tenía que rogar por su atención, dejándome solo el tiempo que le sobraba.</p><div class="reak-grupo"><button class="reak-btn" onclick="reak(this)">👍</button><button class="reak-btn" onclick="reak(this)">👎</button><button class="reak-btn" onclick="reak(this)">💔</button></div></li>
+            <li class="item"><span class="titulo-punto">05. Excusas constantes</span><p class="descripcion">Me inventó excusas de todo tipo para evitar cualquier compromiso de vernos en persona.</p><div class="reak-grupo"><button class="reak-btn" onclick="reak(this)">👍</button><button class="reak-btn" onclick="reak(this)">👎</button><button class="reak-btn" onclick="reak(this)">💔</button></div></li>
+            <li class="item"><span class="titulo-punto">06. Coqueteo descarado</span><p class="descripcion">Se le insinuaba a <span class="nombre-en">Russell</span>, a <span class="nombre-en">Santyno</span> y a <span class="nombre-en">EDMIL</span> mientras a mí me aseguraba que me amaba.</p><div class="reak-grupo"><button class="reak-btn" onclick="reak(this)">👍</button><button class="reak-btn" onclick="reak(this)">👎</button><button class="reak-btn" onclick="reak(this)">💔</button></div></li>
+            <li class="item"><span class="titulo-punto">07. Manipulación pura</span><p class="descripcion">Me manipuló utilizando la excusa de la depresión para terminar la relación y tener el camino libre.</p><div class="reak-grupo"><button class="reak-btn" onclick="reak(this)">👍</button><button class="reak-btn" onclick="reak(this)">👎</button><button class="reak-btn" onclick="reak(this)">💔</button></div></li>
+            <li class="item"><span class="titulo-punto">08. Traición confirmada</span><p class="descripcion">Me traicionó yéndose con <span class="nombre-en">EDMIL</span> al día siguiente de dejarme, la misma persona con la que me juraba que no pasaba nada.</p><div class="reak-grupo"><button class="reak-btn" onclick="reak(this)">👍</button><button class="reak-btn" onclick="reak(this)">👎</button><button class="reak-btn" onclick="reak(this)">💔</button></div></li>
+            <li class="item"><span class="titulo-punto">09. Me dejó morir solo</span><p class="descripcion">Me dio la espalda y no me defendeu cuando hubo problemas y más necesitaba su apoyo.</p><div class="reak-grupo"><button class="reak-btn" onclick="reak(this)">👍</button><button class="reak-btn" onclick="reak(this)">👎</button><button class="reak-btn" onclick="reak(this)">💔</button></div></li>
+            <li class="item"><span class="titulo-punto">10. Difamación</span><p class="descripcion">Inventó y alimentó rumores falsos sobre mí para dañar mi imagen y hacerse pasar por la víctima.</p><div class="reak-grupo"><button class="reak-btn" onclick="reak(this)">👍</button><button class="reak-btn" onclick="reak(this)">👎</button><button class="reak-btn" onclick="reak(this)">💔</button></div></li>
+            <li class="item"><span class="titulo-punto">11. Cobardía en los conflictos</span><p class="descripcion">Evadió los problemas bloqueándome y alejándose, en lugar de dar la cara y hablar de frente conmigo.</p><div class="reak-grupo"><button class="reak-btn" onclick="reak(this)">👍</button><button class="reak-btn" onclick="reak(this)">👎</button><button class="reak-btn" onclick="reak(this)">💔</button></div></li>
+            <li class="item"><span class="titulo-punto">12. Cero arrepentimiento</span><p class="descripcion">Después de todo el daño que me causó, nunca tuvo la madurez de asumir sus acciones ni de pedirme perdón.</p><div class="reak-grupo"><button class="reak-btn" onclick="reak(this)">👍</button><button class="reak-btn" onclick="reak(this)">👎</button><button class="reak-btn" onclick="reak(this)">💔</button></div></li>
+        </ul>
+
+        <footer><span class="enlace-inicio" onclick="volverArriba()">Fin del registro</span></footer>
     </div>
-    <div id="rainContainer"></div>
-    <div class="container">
-        <div class="content">
-            <h1>¡Feliz cumpleaños, mi piojita! 🤍</h1>
-            <div class="date">11 de febrero de 2026</div>
-            <p>Quería escribirte algo real, sin dramas ni vueltas. Sé que hemos estado mal. Entre mis bloqueos, tu inestabilidad y los malentendidos, nos hemos hecho daño. Pero sigo aquí porque te quiero y porque creo que podemos estar mejor.</p>
-            <p>Hoy te pido un regalo para mí también, quiéreme. Quiéreme bien y demuéstramelo. A veces siento que no te importo o que soy una carga para ti, y eso duele. Necesito que dejes de tratarme mal o con frialdad cuando tienes tus bajones. Yo no soy tu enemigo, soy el que quiere verte feliz y el que está dispuesto a apoyarte siempre, incluso cuando dices que "haces todo mal".</p>
-            <p>Vamos a cerrar los temas del pasado y a empezar de cero hoy. Sin celos tontos, sin huidas y con ganas de construir. Eres mi "palidota" y quiero que seas feliz conmigo.</p>
-            <hr>
-        </div>
-        <p id="proposal">Y para demostrarte que voy en serio, tengo una pregunta para ti. ¿Quieres ser mi San Valentín este 14 de febrero?</p>
-        <div class="buttons">
-            <button onclick="showMessage('yes')">Sí</button>
-            <button onclick="showMessage('no')">No</button>
-        </div>
-        <p id="message"></p>
-        <div class="credits">
-            © 2026 Charles Gustav<br>
-            Página hecha para Jamilet Olmos
-        </div>
-    </div>
-    
+
     <script>
-        function toggleTheme() {
-            const body = document.body;
-            const toggle = document.querySelector('.theme-toggle');
-            const h1 = document.querySelector('h1');
-            if (body.dataset.theme === 'dark') {
-                body.dataset.theme = 'light';
-                toggle.classList.remove('dark');
-                h1.textContent = '¡Feliz cumpleaños, mi piojita! ❤️';
-            } else {
-                body.dataset.theme = 'dark';
-                toggle.classList.add('dark');
-                h1.textContent = '¡Feliz cumpleaños, mi piojita! 🤍';
+        // VALORES FINALES
+        const valoresFinales = { dias: 175, excusas: 3, traidores: 5, tiempo: 175 };
+
+        // ANIMACIÓN DE CONTADOR
+        function animateCounter(elementId, targetValue, duration = 1500) {
+            const element = document.getElementById(elementId);
+            const startTime = performance.now();
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const currentValue = Math.floor(easeOut * targetValue);
+                element.textContent = currentValue + (elementId === 'contador' ? ' días' : '');
+                if (progress < 1) { requestAnimationFrame(update); }
             }
+            requestAnimationFrame(update);
         }
 
-        function showMessage(choice) {
-            const messageElement = document.getElementById('message');
-            const buttonsElement = document.querySelector('.buttons');
-            const proposalElement = document.getElementById('proposal');
-            if (choice === 'yes') {
-                messageElement.innerHTML = '¡Sí! Mi piojita hermosa, serás mi San Valentín perfecta. Te amo más que a los loros y piojos juntos. 🤍🦜<br><br><button id="songButton">Escuchar canción favorita</button>';
-                startRain();
-            } else if (choice === 'no') {
-                messageElement.innerHTML = '<button onclick="confirmNo()">¿Estás segura?</button> <button onclick="goBack()">Volver</button>';
-            }
-            proposalElement.classList.add('blurred');
-            buttonsElement.style.animation = 'fadeOut 0.5s ease-out forwards';
+        // INICIAR
+        window.addEventListener('load', () => {
+            const contenido = document.getElementById('contenido');
+            const titulo = document.getElementById('titulo');
             setTimeout(() => {
-                buttonsElement.style.display = 'none';
-                messageElement.style.display = 'block';
-                messageElement.style.animation = 'slideUp 0.8s ease-out forwards';
-                messageElement.scrollIntoView({ behavior: 'smooth' });
-                const songButton = document.getElementById('songButton');
-                if (songButton) {
-                    songButton.addEventListener('click', () => {
-                        window.location.href = 'https://youtu.be/VZsWmidmIjk?si=yW0RVsymxyxAecdl';
-                    });
-                }
+                contenido.classList.add('visible');
+                setTimeout(() => {
+                    titulo.classList.add('visible');
+                    animateCounter('stat-dias', valoresFinales.dias);
+                    animateCounter('stat-excusas', valoresFinales.excusas);
+                    animateCounter('stat-traidores', valoresFinales.traidores);
+                    animateCounter('contador', valoresFinales.tiempo);
+                    iniciarScrollAnimacion();
+                }, 300);
             }, 500);
+        });
+
+        function iniciarScrollAnimacion() {
+            const items = document.querySelectorAll('.item');
+            const footer = document.querySelector('footer');
+            const observer = new IntersectionObserver((entradas) => {
+                entradas.forEach((entrada, index) => {
+                    if (entrada.isIntersecting) {
+                        setTimeout(() => { entrada.target.classList.add('visible'); }, index * 100);
+                    }
+                });
+            }, { threshold: 0.2, rootMargin: "0px 0px -50px 0px" });
+            items.forEach(item => { observer.observe(item); });
+            const observerFooter = new IntersectionObserver((entradas) => {
+                entradas.forEach(entrada => { if (entrada.isIntersecting) footer.classList.add('visible'); });
+            }, { threshold: 0.5 });
+            observerFooter.observe(footer);
         }
 
-        function confirmNo() {
-            const messageElement = document.getElementById('message');
-            const proposalElement = document.getElementById('proposal');
-            messageElement.innerHTML = '¡Ay, no! Pero mi corazón sigue latiendo por ti, mi piojita. Igual te amo mucho. 🤍';
-            proposalElement.classList.add('blurred');
-            messageElement.style.animation = 'slideUp 0.8s ease-out forwards';
-            messageElement.scrollIntoView({ behavior: 'smooth' });
-            startRainSad();
-            setTimeout(() => {
-                messageElement.insertAdjacentHTML('beforeend', '<br><span class="reset-link" onclick="resetPage()">Volver a empezar...</span>');
-            }, 3500);
-        }
-
-        function goBack() {
-            const messageElement = document.getElementById('message');
-            const buttonsElement = document.querySelector('.buttons');
-            const proposalElement = document.getElementById('proposal');
-            messageElement.style.display = 'none';
-            buttonsElement.style.display = 'flex';
-            buttonsElement.style.animation = 'slideUp 0.8s ease-out forwards';
-            proposalElement.classList.remove('blurred');
-            messageElement.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function resetPage() {
-            const messageElement = document.getElementById('message');
-            const buttonsElement = document.querySelector('.buttons');
-            const proposalElement = document.getElementById('proposal');
-            messageElement.style.display = 'none';
-            buttonsElement.style.display = 'flex';
-            buttonsElement.style.animation = 'slideUp 0.8s ease-out forwards';
-            proposalElement.classList.remove('blurred');
+        function volverArriba() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function startRain() {
-            const rainContainer = document.getElementById('rainContainer');
-            const body = document.body;
-            const isLight = body.dataset.theme === 'light';
-            for (let i = 0; i < 40; i++) {
-                setTimeout(() => {
-                    const rainElement = document.createElement('div');
-                    rainElement.classList.add('rain');
-                    rainElement.style.left = Math.random() * 100 + '%';
-                    rainElement.style.animationDelay = Math.random() * 2 + 's';
-                    if (Math.random() > 0.5) {
-                        rainElement.classList.add('loro');
-                        rainElement.textContent = '🦜';
-                    } else {
-                        rainElement.classList.add('heart');
-                        rainElement.textContent = isLight ? '❤️' : '🤍';
-                    }
-                    rainContainer.appendChild(rainElement);
-                    setTimeout(() => {
-                        rainElement.remove();
-                    }, 3000);
-                }, i * 100);
-            }
+        function reak(boton) {
+            const grupo = boton.parentElement;
+            const botones = grupo.querySelectorAll('.reak-btn');
+            botones.forEach(b => b.classList.remove('activado'));
+            boton.classList.add('activado');
         }
 
-        function startRainSad() {
-            const rainContainer = document.getElementById('rainContainer');
-            for (let i = 0; i < 40; i++) {
-                setTimeout(() => {
-                    const rainElement = document.createElement('div');
-                    rainElement.classList.add('rain', 'sad');
-                    rainElement.style.left = Math.random() * 100 + '%';
-                    rainElement.style.animationDelay = Math.random() * 2 + 's';
-                    rainElement.textContent = '😭';
-                    rainContainer.appendChild(rainElement);
-                    setTimeout(() => {
-                        rainElement.remove();
-                    }, 3000);
-                }, i * 100);
-            }
+        // PARTÍCULAS
+        const canvas = document.getElementById('particulas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const particulas = [];
+        for (let i = 0; i < 50; i++) {
+            particulas.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                tamaño: Math.random() * 2
+            });
         }
-
-        const hrElement = document.querySelector('hr');
-        const observerHr = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    hrElement.classList.add('animate');
-                }
+        function animParticulas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#222';
+            particulas.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.tamaño, 0, Math.PI * 2);
+                ctx.fill();
             });
-        }, { threshold: 0.5 });
-        observerHr.observe(hrElement);
-
-        const proposalElement = document.getElementById('proposal');
-        const contentElement = document.querySelector('.content');
-        const observerProposal = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    contentElement.classList.add('blurred');
-                } else {
-                    contentElement.classList.remove('blurred');
-                }
-            });
-        }, { threshold: 0.5 });
-        observerProposal.observe(proposalElement);
+            requestAnimationFrame(animParticulas);
+        }
+        animParticulas();
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
     </script>
 </body>
 </html>
